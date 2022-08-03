@@ -9,9 +9,9 @@ func enter(_msg := {}) -> void:
 func physics_update(_delta: float) -> void:
 	# If you have platforms that break when standing on them, you need that check for 
 	# the character to fall.
-#	player.y_velo = -.1
+	player.do_recover()
 	var input_vec = player.get_input_vec()
-	player.do_movement(input_vec, player.DECELERATION, player.SPEED_MOD, Vector3.DOWN, false)
+	player.do_momentum_move(input_vec, 0, 0.2)
 	
 	if not player.is_grounded():
 		state_machine.transition_to("Air")

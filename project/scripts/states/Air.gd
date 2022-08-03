@@ -11,6 +11,10 @@ func enter(msg := {}) -> void:
 		player.y_velo = player.AIR_JUMP_FORCE
 		player.stamina -= player.AIR_JUMP_STAM_COST
 		player.play_anim("jump")
+	elif msg.has("do_wall_jump") and player.stamina >= 0:
+		player.y_velo = player.V_WALL_JUMP_FORCE
+		player.move_vec = msg["wall_normal"] * player.H_WALL_JUMP_FORCE
+		player.stamina -= player.WALL_JUMP_STAM_COST
 
 
 func physics_update(delta: float) -> void:
@@ -21,11 +25,17 @@ func physics_update(delta: float) -> void:
 	# Horizontal movement.
 	var input_vec: Vector3 = player.get_input_vec()
 	player.do_facing(input_vec)
-	player.do_movement(input_vec, player.AIR_ACCELERATION, player.AIR_SPEED_MOD, Vector3.ZERO, true)
-
+	player.do_momentum_move(input_vec, player.MAX_SPEED, player.AIR_SPEED_MOD, Vector3.ZERO)
+	
 	if Input.is_action_just_pressed("jump"):
 		state_machine.transition_to("Air", {do_air_jump = true})
-	# Landing.
+	
+	if player.is_walled():
+		state_machine.transition_to("Wall")
+		return
+	if player.stamina > 0 and Input.is_action_just_pressed("dash"):
+		state_machine.transition_to("Dash")	
+	# Landing. bug: air -> run -> air when jumping
 	if player.is_grounded():
 		if is_equal_approx(input_vec.length(), 0.0):
 			state_machine.transition_to("Idle")
