@@ -1,0 +1,85 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://assets/prototype-textures/png/concrete.png" type="Texture" id=1]
+
+[sub_resource type="CubeMesh" id=1]
+
+[sub_resource type="SpatialMaterial" id=4]
+albedo_color = Color( 0.858824, 0.152941, 0.733333, 1 )
+albedo_texture = ExtResource( 1 )
+uv1_scale = Vector3( 2, 2, 2 )
+
+[sub_resource type="ConcavePolygonShape" id=3]
+data = PoolVector3Array( -1, 1, 1, 1, 1, 1, -1, -1, 1, 1, 1, 1, 1, -1, 1, -1, -1, 1, 1, 1, -1, -1, 1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1, -1, -1, 1, 1, 1, 1, 1, -1, 1, -1, 1, 1, 1, -1, 1, -1, -1, 1, -1, 1, -1, 1, -1, -1, 1, 1, -1, -1, -1, -1, 1, 1, -1, -1, 1, -1, -1, -1, 1, 1, 1, -1, 1, 1, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1, 1, -1, -1, -1, 1, 1, -1, 1, -1, -1, -1, 1, -1, 1, 1, -1, -1, -1, -1, -1 )
+
+[sub_resource type="Curve3D" id=5]
+_data = {
+"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, -0.00692129, -0.067625, 0.0686941, 0, 0, 0, 0, 0, 0, 63.6979, 0.196827, -0.0865707 ),
+"tilts": PoolRealArray( 0, 0 )
+}
+
+[sub_resource type="Animation" id=6]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("../Path/PathFollow:unit_offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "moving_platform"
+length = 8.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("../Path/PathFollow:unit_offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 4, 8 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0, 0.0 ]
+}
+
+[node name="Spatial" type="Spatial"]
+
+[node name="purple" type="MeshInstance" parent="."]
+transform = Transform( -0.00731172, -0.00207556, 2.99996, 0, 0.499995, 0.0124534, -2.99999, 5.05865e-06, -0.00731163, -0.00692129, -0.067625, 0.0686941 )
+mesh = SubResource( 1 )
+material/0 = SubResource( 4 )
+
+[node name="KinematicBody" type="KinematicBody" parent="purple"]
+transform = Transform( 1, 1.13687e-13, 0, 3.63798e-12, 1, 1.06327e-09, 0, -3.51492e-11, 1, 0, 0, 0 )
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape" type="CollisionShape" parent="purple/KinematicBody"]
+transform = Transform( 0.999999, -2.27374e-13, 0, -2.18279e-11, 0.999999, 8.51387e-09, -1.16415e-09, -3.51452e-11, 1, 0, 0, 0 )
+shape = SubResource( 3 )
+
+[node name="Path" type="Path" parent="."]
+curve = SubResource( 5 )
+
+[node name="PathFollow" type="PathFollow" parent="Path"]
+transform = Transform( -0.00243724, -0.00415112, 0.999987, 0, 0.99999, 0.00415113, -0.999997, 1.01173e-05, -0.00243721, -0.00692129, -0.067625, 0.0686941 )
+
+[node name="RemoteTransform" type="RemoteTransform" parent="Path/PathFollow"]
+transform = Transform( 3, 0, 0, 0, 0.5, 0, 0, 0, 3, 0, 0, 0 )
+remote_path = NodePath("../../../purple")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Path"]
+root_node = NodePath("../../purple")
+autoplay = "moving_platform"
+playback_speed = 0.5
+method_call_mode = 1
+anims/RESET = SubResource( 6 )
+anims/moving_platform = SubResource( 7 )
