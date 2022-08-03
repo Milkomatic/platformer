@@ -10,3 +10,7 @@ fog_enabled = true
 fog_color = Color( 0.333333, 0.627451, 0.921569, 1 )
 fog_depth_end = 300.0
 fog_transmit_enabled = true
+ssao_enabled = true
+ssao_radius = 2.0
+ssao_intensity = 4.0
+ssao_light_affect = 0.5
