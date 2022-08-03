@@ -53,7 +53,7 @@ func p_auto_rotate(delta: float):
 			print(dir)
 #			rotation_degrees = lerp(rotation_degrees, -dir, AUTO_R_SPEED)
 			rotation_degrees.y = dir.y
-#			var dir = get_parent().translation + Vector3.UP
+#			var dir = get_parent().translation
 #			look_at(dir, Vector3.UP)
 	has_input = false
 	
