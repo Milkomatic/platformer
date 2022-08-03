@@ -84,7 +84,7 @@ func _physics_process(delta):
 #	p_facing(input_vec)
 
 #	p_dash(input_vec)
-	just_jumped = p_jump(just_jumped)
+#	just_jumped = p_jump(just_jumped)
 	
 	p_cooldowns()
 	

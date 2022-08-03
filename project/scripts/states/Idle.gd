@@ -3,12 +3,13 @@ extends PlayerState
 
 func enter(_msg := {}) -> void:
 	# Decelerate when entering idle
-	player.move_vec = Vector3.ZERO
+	player.play_anim("idle")
 
 
 func physics_update(_delta: float) -> void:
 	# If you have platforms that break when standing on them, you need that check for 
 	# the character to fall.
+#	player.y_velo = -.1
 	var input_vec = player.get_input_vec()
 	player.do_movement(input_vec, player.DECELERATION, player.SPEED_MOD, Vector3.DOWN, false)
 	

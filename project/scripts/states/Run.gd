@@ -3,7 +3,7 @@ extends PlayerState
 
 
 func physics_update(delta: float) -> void:
-
+	player.play_anim("walk")
 	if not player.is_grounded():
 		state_machine.transition_to("Air")
 		return
