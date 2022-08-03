@@ -1,3 +1,4 @@
+class_name Player
 extends KinematicBody
 
 const MAX_STAMINA := 120.0
@@ -74,36 +75,23 @@ var is_crouching := false
 func _ready():
 	anim.get_animation("walk").set_loop(true)
 	stam_bar.max_value = MAX_STAMINA
-	
-	#Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-
-#func _input(event):
-#	if event is InputEventMouseMotion:
-#		cam.rotation_degrees.x -= event.relative.y * V_LOOK_SENS
-#		cam.rotation_degrees.x = clamp(cam.rotation_degrees.x, -90, 90)	
-#		rotation_degrees.y -= event.relative.x * H_LOOK_SENS
-#		graphics.rotation_degrees.y += event.relative.x * H_LOOK_SENS
-
-#func _process(delta):
-#pass
 
 func _physics_process(delta):
 	var just_jumped = false
 	var input_vec = get_input_vec()
-#	p_state_tween_h_speed(input_vec)
 	is_standing_still = (input_vec == Vector3())		
 	
-	p_facing(input_vec)
+#	p_facing(input_vec)
 
-	p_dash(input_vec)
+#	p_dash(input_vec)
 	just_jumped = p_jump(just_jumped)
 	
 	p_cooldowns()
 	
-	p_move()
-	p_fall()
+#	p_move()
+#	p_fall()
 	
-	p_animations(just_jumped)
+#	p_animations(just_jumped)
 	p_hud()
 
 func p_animations(var just_jumped):
@@ -137,9 +125,13 @@ func p_facing(input_vec):
 		if dash_cooldown <= 0 and wall_jump_cooldown <= 0:
 			facing_vec = lerp(facing_vec, input_vec , TURN_MOD)
 		else:
-			facing_vec = lerp(facing_vec, input_vec , TURN_MOD/3)			
-		graphics.look_at(global_transform.origin - facing_vec, Vector3(0, 1, 0))
-
+			facing_vec = lerp(facing_vec, input_vec , TURN_MOD/3)
+	facing_vec = lerp(facing_vec, input_vec , TURN_MOD)
+	
+func do_facing(input_vec: Vector3):
+	facing_vec = lerp(facing_vec, input_vec , TURN_MOD)
+	graphics.look_at(global_transform.origin - facing_vec, Vector3(0, 1, 0))
+	
 func p_dash(input_vec):
 	if !is_standing_still and Input.is_action_just_pressed("dash") and stamina > 0 and dash_cooldown <= 0:
 		dash_cooldown = DASH_LENGTH
@@ -235,7 +227,7 @@ func p_move():
 		if is_crouching:
 			move_vec = facing_vec * (real_acceleration_speed * CROUCH_SPEED_MOD)
 		else:
-			move_vec = facing_vec * (real_acceleration_speed * SPEED_MOD)			
+			move_vec = facing_vec * (real_acceleration_speed * SPEED_MOD)	
 	elif is_walled():
 		move_vec = facing_vec * (real_acceleration_speed * WALL_SPEED_MOD)	
 	else:
@@ -261,7 +253,23 @@ func p_slide(real_move_vec: Vector3):
 		speed_rate += .05
 		real_move_vec += collision.remainder
 		move_and_slide_with_snap(real_move_vec, collision.normal, Vector3(0, 1, 0), false, 4, deg2rad(80), false)
-	
+
+func do_movement(var input_vec: Vector3, var acceleration: float, speed_mod: float, snap_vec: Vector3, var is_acc: bool):
+	var real_acceleration_speed = 0.0
+
+	if is_acc:
+		speed_rate += acceleration
+		real_acceleration_speed = acceleration_curve.interpolate(speed_rate)
+	else:
+		speed_rate -= acceleration		
+		real_acceleration_speed = deceleration_curve.interpolate(speed_rate)		
+	speed_rate = clamp(speed_rate, 0.0, 1.0)
+	# not conviced this turn_mod is better than a more naturalistic method of 
+	# move += input*speed :: where top speed is determined by friction.
+	move_vec = facing_vec * (real_acceleration_speed * speed_mod)
+	var real_move_vec = Vector3(move_vec.x, y_velo, move_vec.z)
+	move_and_slide_with_snap(real_move_vec, snap_vec, Vector3.UP, true, 4, deg2rad(80), false)
+
 func play_anim(name):
 	if anim.current_animation == name:
 		return
