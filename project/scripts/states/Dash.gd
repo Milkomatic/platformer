@@ -19,13 +19,13 @@ func physics_update(delta: float) -> void:
 	if Input.is_action_just_pressed("jump"):
 		state_machine.transition_to("Air", {do_air_jump = true})
 	elif dash_cooldown <= 0:
-		if player.is_on_wall():
-			state_machine.transition_to("WallRun")
-		elif player.is_grounded():
+		if player.is_grounded():
 			if is_equal_approx(input_vec.length(), 0.0):
 				state_machine.transition_to("Idle")
 			else:
 				state_machine.transition_to("Run")
+		elif player.is_on_wall():
+			state_machine.transition_to("WallRun")
 		else:
 			state_machine.transition_to("Air")
 
