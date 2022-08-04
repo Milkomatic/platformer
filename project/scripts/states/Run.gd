@@ -11,7 +11,6 @@ func physics_update(delta: float) -> void:
 
 	# We move the run-specific input code to the state.
 	var input_vec: Vector3 = player.get_input_vec()
-	player.do_facing(input_vec)
 	player.do_momentum_move(input_vec, player.MAX_SPEED, player.RUN_SPEED_MOD)
 	
 	if Input.is_action_just_pressed("jump"):

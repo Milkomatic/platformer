@@ -13,7 +13,6 @@ func enter(msg := {}) -> void:
 func physics_update(delta: float) -> void:
 	# We move the run-specific input code to the state.
 	var input_vec: Vector3 = player.get_input_vec()
-	player.do_facing(input_vec)
 	player.do_momentum_move(input_vec, player.MAX_SPEED, 0.1)
 	dash_cooldown -= 1
 	

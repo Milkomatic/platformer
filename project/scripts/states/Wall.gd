@@ -20,7 +20,7 @@ func physics_update(_delta: float) -> void:
 			player.y_velo = -player.MAX_FALL_SPEED
 	
 	var input_vec = player.get_input_vec()
-	player.do_momentum_move(input_vec, player.MAX_WALL_SLIDE_SPEED, player.WALL_SPEED_MOD)
+	player.do_momentum_move(input_vec, player.MAX_WALL_SLIDE_SPEED, player.WALL_SPEED_MOD, -wall_normal * player.WALL_SNAP_STRENGTH)
 	
 #	if not player.is_grounded():
 #		state_machine.transition_to("Air")

@@ -24,7 +24,6 @@ func physics_update(delta: float) -> void:
 		player.y_velo = -player.MAX_FALL_SPEED
 	# Horizontal movement.
 	var input_vec: Vector3 = player.get_input_vec()
-	player.do_facing(input_vec)
 	player.do_momentum_move(input_vec, player.MAX_SPEED, player.AIR_SPEED_MOD, Vector3.ZERO)
 	
 	if player.stamina > 0 and Input.is_action_just_pressed("jump"):

@@ -5,13 +5,14 @@ const MAX_STAMINA := 120.0
 const MAX_BUFFER := 360.0
 const MAX_EXHAUSTION := 60.0
 const STAMINA_RECOVERY := 3 #2?
-const EXHAUSTION_RECOVERY := .25 #.75?
+const EXHAUSTION_RECOVERY := .2 #.75?
 
 const DASH_STAM_COST := 40
 const WALL_JUMP_STAM_COST := 12
 const AIR_JUMP_STAM_COST := 60
 
 const WALL_RUN_STAM_DRAIN := 1 # should sliding/running cost stamina?
+const WALL_SNAP_STRENGTH := 20
 
 const MAX_SPEED := 15
 const JUMP_FORCE := 30
@@ -70,7 +71,6 @@ func spend_stamina(value: float):
 	if stamina <= 0:
 		buffer += stamina # stamina is negative here
 		exhaustion = -buffer
-		print(exhaustion)
 		stamina = 0
 	if buffer < 0:
 		buffer = 0
@@ -82,10 +82,11 @@ func get_input_vec() -> Vector3:
 	input_vec.z = Input.get_action_strength("move_backwards") -  Input.get_action_strength("move_forwards")
 	input_vec = input_vec.rotated(Vector3(0, 1, 0), cam.rotation.y).normalized()
 	return input_vec
-	
-func do_facing(input_vec: Vector3):
-	facing_vec = lerp(facing_vec, input_vec , TURN_MOD)
-	graphics.look_at(global_transform.origin - facing_vec, Vector3(0, 1, 0))
+
+#func do_facing(input_vec: Vector3):
+#	facing_vec = lerp(facing_vec, input_vec , TURN_MOD)
+#	graphics.look_at(global_transform.origin - facing_vec, Vector3(0, 1, 0))
+#	graphics.rotation.y = lerp( graphics.rotation.y, atan2( input_vec.x, input_vec.z ), TURN_MOD) 
 
 func do_recover():
 	if exhaustion > 0:
@@ -96,10 +97,12 @@ func do_recover():
 			stamina = MAX_STAMINA
 
 func do_momentum_move(input_vec: Vector3, target_speed: float, change_rate: float, snap_vector := Vector3.DOWN):
-#	real_move_vec = real_move_vec * lerp(real_move_vec, Vector3.ZERO, friction_curve.interpolate(real_move_vec.length()))
 	move_vec = lerp(move_vec, input_vec * target_speed, change_rate)
 	var real_move_vec = Vector3(move_vec.x, y_velo, move_vec.z)		
 	move_and_slide_with_snap(real_move_vec, snap_vector, Vector3.UP, true, 4, deg2rad(80), false)
+	if not is_equal_approx(input_vec.length(), 0.0):
+		facing_vec = lerp(facing_vec, input_vec , TURN_MOD)
+		graphics.look_at(global_transform.origin - facing_vec, Vector3(0, 1, 0))
 
 func play_anim(name):
 	if anim.current_animation == name:
