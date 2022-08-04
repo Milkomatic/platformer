@@ -29,7 +29,7 @@ func physics_update(delta: float) -> void:
 	if player.stamina > 0 and Input.is_action_just_pressed("jump"):
 		state_machine.transition_to("Air", {do_air_jump = true})
 	
-	if player.is_on_wall():
+	if player.is_on_wall() and not Input.is_action_pressed("crouch"):
 		state_machine.transition_to("Wall")
 	elif player.stamina > 0 and Input.is_action_just_pressed("dash"):
 		state_machine.transition_to("Dash")	
