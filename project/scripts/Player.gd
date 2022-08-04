@@ -12,7 +12,6 @@ const WALL_JUMP_STAM_COST := 12
 const AIR_JUMP_STAM_COST := 60
 
 const WALL_RUN_STAM_DRAIN := 1 # should sliding/running cost stamina?
-const WALL_SNAP_STRENGTH := 20
 
 const MAX_SPEED := 15
 const JUMP_FORCE := 30
@@ -96,10 +95,11 @@ func do_recover():
 		if stamina > MAX_STAMINA:
 			stamina = MAX_STAMINA
 
-func do_momentum_move(input_vec: Vector3, target_speed: float, change_rate: float, snap_vector := Vector3.DOWN):
+func do_momentum_move(input_vec: Vector3, target_speed: float, change_rate: float,
+		 snap_vector := Vector3.DOWN, up_vector := Vector3.UP):
 	move_vec = lerp(move_vec, input_vec * target_speed, change_rate)
 	var real_move_vec = Vector3(move_vec.x, y_velo, move_vec.z)		
-	move_and_slide_with_snap(real_move_vec, snap_vector, Vector3.UP, true, 4, deg2rad(80), false)
+	move_and_slide_with_snap(real_move_vec, snap_vector, up_vector, true, 4, deg2rad(80), false)
 	if not is_equal_approx(input_vec.length(), 0.0):
 		facing_vec = lerp(facing_vec, input_vec , TURN_MOD)
 		graphics.look_at(global_transform.origin - facing_vec, Vector3(0, 1, 0))

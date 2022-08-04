@@ -20,13 +20,13 @@ func physics_update(_delta: float) -> void:
 			player.y_velo = -player.MAX_FALL_SPEED
 	
 	var input_vec = player.get_input_vec()
-	player.do_momentum_move(input_vec, player.MAX_WALL_SLIDE_SPEED, player.WALL_SPEED_MOD, -wall_normal * player.WALL_SNAP_STRENGTH)
+	player.do_momentum_move(input_vec, player.MAX_WALL_SLIDE_SPEED, player.WALL_SPEED_MOD, -wall_normal, wall_normal)
 	
 #	if not player.is_grounded():
 #		state_machine.transition_to("Air")
 #		return
 
-	if not player.is_walled():
+	if not player.is_walled() or Input.is_action_just_pressed("crouch"):
 		state_machine.transition_to("Air")		
 	if Input.is_action_just_pressed("jump") and player.stamina > 0:
 		state_machine.transition_to("Air", {do_wall_jump = true, wall_normal = wall_normal})
