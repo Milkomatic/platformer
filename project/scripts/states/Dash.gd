@@ -15,11 +15,13 @@ func physics_update(delta: float) -> void:
 	var input_vec: Vector3 = player.get_input_vec()
 	player.do_momentum_move(input_vec, player.MAX_SPEED, 0.1)
 	dash_cooldown -= 1
-	
+
 	if Input.is_action_just_pressed("jump"):
-		state_machine.transition_to("Air", {do_jump = true})
-	if dash_cooldown <= 0:
-		if player.is_grounded():
+		state_machine.transition_to("Air", {do_air_jump = true})
+	elif dash_cooldown <= 0:
+		if player.is_on_wall():
+			state_machine.transition_to("WallRun")
+		elif player.is_grounded():
 			if is_equal_approx(input_vec.length(), 0.0):
 				state_machine.transition_to("Idle")
 			else:

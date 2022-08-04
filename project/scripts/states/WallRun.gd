@@ -12,19 +12,20 @@ func physics_update(_delta: float) -> void:
 	# the character to fall.
 	if player.y_velo <= 0:
 		player.y_velo -= player.GRAVITY / player.WALL_SLIDE_SPEED
-		if player.y_velo < -player.MAX_WALL_SLIDE_SPEED:
-			player.y_velo = -player.MAX_WALL_SLIDE_SPEED
+		if player.y_velo < -player.MAX_WALL_RUN_SLIDE_SPEED:
+			player.y_velo = -player.MAX_WALL_RUN_SLIDE_SPEED
 	else:
 		player.y_velo -= player.GRAVITY
 		if player.y_velo < -player.MAX_FALL_SPEED:
 			player.y_velo = -player.MAX_FALL_SPEED
 	
 	var input_vec = player.get_input_vec()
-	player.do_momentum_move(input_vec, player.MAX_WALL_SLIDE_SPEED, player.WALL_SPEED_MOD, -wall_normal, wall_normal)
+	player.do_momentum_move(input_vec, player.MAX_SPEED, player.WALL_SPEED_MOD, -wall_normal, wall_normal)
+	player.spend_stamina(player.WALL_RUN_STAM_DRAIN)
 
-	if Input.is_action_pressed("dash") and player.stamina > 0:
-		state_machine.transition_to("WallRun")		
-	elif not player.is_walled() or Input.is_action_just_pressed("crouch"):
+	if Input.is_action_just_released("dash"):
+		state_machine.transition_to("Wall")		
+	if not player.is_walled() or Input.is_action_just_pressed("crouch"):
 		state_machine.transition_to("Air")
 	elif Input.is_action_just_pressed("jump") and player.stamina > 0:
 		state_machine.transition_to("Air", {do_wall_jump = true, wall_normal = wall_normal})

@@ -7,11 +7,12 @@ const MAX_EXHAUSTION := 60.0
 const STAMINA_RECOVERY := 3 #2?
 const EXHAUSTION_RECOVERY := .2 #.75?
 
-const DASH_STAM_COST := 40
+const DASH_STAM_COST := 30
+#const DASH_STAM_COST := 40
 const WALL_JUMP_STAM_COST := 12
 const AIR_JUMP_STAM_COST := 60
 
-const WALL_RUN_STAM_DRAIN := 1 # should sliding/running cost stamina?
+const WALL_RUN_STAM_DRAIN := .25 # should sliding/running cost stamina?
 
 const MAX_SPEED := 15
 const JUMP_FORCE := 30
@@ -24,10 +25,11 @@ const GRAVITY := 0.98
 const WALL_SLIDE_SPEED := 5
 const MAX_FALL_SPEED := 30
 const MAX_WALL_SLIDE_SPEED := 5
+const MAX_WALL_RUN_SLIDE_SPEED := 3
 
 const RUN_SPEED_MOD := 0.20
 const AIR_SPEED_MOD := 0.06
-const WALL_SPEED_MOD := 0.1
+const WALL_SPEED_MOD := 0.06
 
 const TURN_MOD = 0.2
 

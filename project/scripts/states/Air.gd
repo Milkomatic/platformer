@@ -29,13 +29,12 @@ func physics_update(delta: float) -> void:
 	if player.stamina > 0 and Input.is_action_just_pressed("jump"):
 		state_machine.transition_to("Air", {do_air_jump = true})
 	
-	if player.is_walled():
+	if player.is_on_wall():
 		state_machine.transition_to("Wall")
-		return
-	if player.stamina > 0 and Input.is_action_just_pressed("dash"):
+	elif player.stamina > 0 and Input.is_action_just_pressed("dash"):
 		state_machine.transition_to("Dash")	
 	# Landing. bug: air -> run -> air when jumping
-	if player.is_grounded():
+	elif player.is_on_floor():
 		if is_equal_approx(input_vec.length(), 0.0):
 			state_machine.transition_to("Idle")
 		else:

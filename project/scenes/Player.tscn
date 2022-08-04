@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/polycat.dae" type="PackedScene" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://scripts/states/Air.gd" type="Script" id=8]
 [ext_resource path="res://scripts/states/Wall.gd" type="Script" id=9]
 [ext_resource path="res://scripts/states/Dash.gd" type="Script" id=10]
+[ext_resource path="res://scripts/states/WallRun.gd" type="Script" id=11]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.3
@@ -58,7 +59,6 @@ shape = SubResource( 3 )
 
 [node name="MidBox" type="Area" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0622558, 0 )
-visible = false
 collision_layer = 2
 collision_mask = 2
 
@@ -91,6 +91,9 @@ script = ExtResource( 8 )
 
 [node name="Wall" type="Node" parent="StateMachine"]
 script = ExtResource( 9 )
+
+[node name="WallRun" type="Node" parent="StateMachine"]
+script = ExtResource( 11 )
 
 [node name="Dash" type="Node" parent="StateMachine"]
 script = ExtResource( 10 )
