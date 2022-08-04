@@ -8,9 +8,8 @@ func enter(msg := {}) -> void:
 	player.move_vec = player.get_input_vec() * player.DASH_FORCE
 	player.play_anim("jump")
 	dash_cooldown = player.DASH_LENGTH
-	player.stamina -= player.DASH_STAM_COST
+	player.spend_stamina(player.DASH_STAM_COST)
 	
-		
 func physics_update(delta: float) -> void:
 	# We move the run-specific input code to the state.
 	var input_vec: Vector3 = player.get_input_vec()

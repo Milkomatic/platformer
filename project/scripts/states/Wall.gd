@@ -28,7 +28,7 @@ func physics_update(_delta: float) -> void:
 
 	if not player.is_walled():
 		state_machine.transition_to("Air")		
-	if Input.is_action_just_pressed("jump"):
+	if Input.is_action_just_pressed("jump") and player.stamina > 0:
 		state_machine.transition_to("Air", {do_wall_jump = true, wall_normal = wall_normal})
 	elif player.is_grounded() and not is_equal_approx(input_vec.length(), 0.0):
 		state_machine.transition_to("Run")

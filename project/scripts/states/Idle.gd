@@ -16,6 +16,10 @@ func physics_update(_delta: float) -> void:
 	if not player.is_grounded():
 		state_machine.transition_to("Air")
 		return
+	
+	
+	if Input.is_action_just_pressed("test"):
+		player.buffer = player.MAX_BUFFER
 
 	if Input.is_action_just_pressed("jump"):
 		# As we'll only have one air state for both jump and fall, we use the `msg` dictionary 

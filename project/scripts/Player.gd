@@ -2,8 +2,10 @@ class_name Player
 extends KinematicBody
 
 const MAX_STAMINA := 120.0
+const MAX_BUFFER := 360.0
+const MAX_EXHAUSTION := 60.0
 const STAMINA_RECOVERY := 3 #2?
-const PENALTY_RECOVERY := .5 #.75?
+const EXHAUSTION_RECOVERY := .25 #.75?
 
 const DASH_STAM_COST := 40
 const WALL_JUMP_STAM_COST := 12
@@ -33,7 +35,8 @@ onready var cam = $CamBase
 onready var anim = $Graphics/AnimationPlayer
 onready var graphics = $Graphics
 onready var stam_bar = $Hud/StaminaBar
-onready var pen_bar = $Hud/PenaltyBar
+onready var exh_bar = $Hud/ExhaustionBar
+onready var buf_bar = $Hud/BufferBar
 
 onready var head_box = $HeadBox
 onready var mid_box = $MidBox
@@ -45,19 +48,34 @@ var move_vec := Vector3()
 var facing_vec := Vector3()
 
 var stamina := MAX_STAMINA
+var exhaustion := 0.0
+var buffer := MAX_BUFFER
 
 func _ready():
 	anim.get_animation("walk").set_loop(true)
 	stam_bar.max_value = MAX_STAMINA
+	buf_bar.max_value = MAX_BUFFER
 
 func _physics_process(delta):
 	p_hud()
 
 func p_hud():
-	stam_bar.value = stamina
-	pen_bar.value = -stamina
+	stam_bar.value = lerp(stam_bar.value, stamina, .4)
+	exh_bar.value = lerp(exh_bar.value, exhaustion, .4)
+	buf_bar.value = lerp(buf_bar.value, buffer, .4)
 	cam.translation = lerp(cam.translation, translation + Vector3.UP, 0.4) #one unit up
 	
+func spend_stamina(value: float):
+	stamina -= value
+	if stamina <= 0:
+		buffer += stamina # stamina is negative here
+		exhaustion = -buffer
+		print(exhaustion)
+		stamina = 0
+	if buffer < 0:
+		buffer = 0
+
+
 func get_input_vec() -> Vector3:
 	var input_vec = Vector3()	
 	input_vec.x = Input.get_action_strength("move_right") -  Input.get_action_strength("move_left")
@@ -70,12 +88,12 @@ func do_facing(input_vec: Vector3):
 	graphics.look_at(global_transform.origin - facing_vec, Vector3(0, 1, 0))
 
 func do_recover():
-	if stamina < 0:
-		stamina += PENALTY_RECOVERY 
+	if exhaustion > 0:
+		exhaustion -= EXHAUSTION_RECOVERY 
 	else:
 		stamina += STAMINA_RECOVERY
 		if stamina > MAX_STAMINA:
-			stamina = MAX_STAMINA	
+			stamina = MAX_STAMINA
 
 func do_momentum_move(input_vec: Vector3, target_speed: float, change_rate: float, snap_vector := Vector3.DOWN):
 #	real_move_vec = real_move_vec * lerp(real_move_vec, Vector3.ZERO, friction_curve.interpolate(real_move_vec.length()))

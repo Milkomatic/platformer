@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.219608, 0.611765, 0.419608, 1 )
@@ -24,6 +24,14 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color( 0, 0, 0, 1 )
 
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.827451, 0.6, 0.0627451, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0, 0, 0, 1 )
+
 [node name="Hud" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -39,7 +47,7 @@ custom_styles/fg = SubResource( 1 )
 custom_styles/bg = SubResource( 2 )
 percent_visible = false
 
-[node name="PenaltyBar" type="ProgressBar" parent="."]
+[node name="ExhaustionBar" type="ProgressBar" parent="."]
 anchor_left = 0.25
 anchor_top = 0.9
 anchor_right = 0.75
@@ -48,6 +56,19 @@ margin_top = 12.0
 margin_right = 4.0
 margin_bottom = 19.0
 custom_styles/fg = SubResource( 3 )
+custom_styles/bg = SubResource( 2 )
+max_value = 60.0
+percent_visible = false
+
+[node name="BufferBar" type="ProgressBar" parent="."]
+anchor_left = 0.25
+anchor_top = 0.9
+anchor_right = 0.75
+anchor_bottom = 0.9
+margin_top = -5.0
+margin_right = 4.0
+margin_bottom = 2.0
+custom_styles/fg = SubResource( 4 )
 custom_styles/bg = SubResource( 2 )
 max_value = 60.0
 percent_visible = false

@@ -7,14 +7,14 @@ func enter(msg := {}) -> void:
 	if msg.has("do_jump"):
 		player.y_velo = player.JUMP_FORCE
 		player.play_anim("jump")
-	elif msg.has("do_air_jump") and player.stamina >= 0:
+	elif msg.has("do_air_jump") :
 		player.y_velo = player.AIR_JUMP_FORCE
-		player.stamina -= player.AIR_JUMP_STAM_COST
+		player.spend_stamina(player.AIR_JUMP_STAM_COST)
 		player.play_anim("jump")
-	elif msg.has("do_wall_jump") and player.stamina >= 0:
+	elif msg.has("do_wall_jump"):
 		player.y_velo = player.V_WALL_JUMP_FORCE
 		player.move_vec = msg["wall_normal"] * player.H_WALL_JUMP_FORCE
-		player.stamina -= player.WALL_JUMP_STAM_COST
+		player.spend_stamina(player.WALL_JUMP_STAM_COST)
 
 
 func physics_update(delta: float) -> void:
@@ -27,7 +27,7 @@ func physics_update(delta: float) -> void:
 	player.do_facing(input_vec)
 	player.do_momentum_move(input_vec, player.MAX_SPEED, player.AIR_SPEED_MOD, Vector3.ZERO)
 	
-	if Input.is_action_just_pressed("jump"):
+	if player.stamina > 0 and Input.is_action_just_pressed("jump"):
 		state_machine.transition_to("Air", {do_air_jump = true})
 	
 	if player.is_walled():
