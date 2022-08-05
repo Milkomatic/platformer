@@ -4,6 +4,7 @@ extends PlayerState
 
 # If we get a message asking us to jump, we jump.
 func enter(msg := {}) -> void:
+	player.cam.has_input = true	
 	if msg.has("do_jump"):
 		player.y_velo = player.JUMP_FORCE
 		player.play_anim("jump")
@@ -12,7 +13,6 @@ func enter(msg := {}) -> void:
 		player.spend_stamina(player.AIR_JUMP_STAM_COST)
 		player.play_anim("jump")
 	elif msg.has("do_wall_jump"):
-		player.cam.has_input = true
 		player.y_velo = player.V_WALL_JUMP_FORCE
 		player.move_vec = msg["wall_normal"] * player.H_WALL_JUMP_FORCE
 		player.spend_stamina(player.WALL_JUMP_STAM_COST)

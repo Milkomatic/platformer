@@ -5,9 +5,9 @@ const V_MOUSE_SENS = 0.7
 const H_STICK_SENS = 3
 const V_STICK_SENS = 3
 
-const AUTO_R_DELAY = 1
+const AUTO_R_DELAY = 1.5
 const AUTO_R_SPEED = .04
-const AUTO_R_ANGLE = .2
+const AUTO_R_ANGLE = .05
 var auto_r_delay_counter = 0.0
 var has_input = false
 var angle_to_rotate = 0.0

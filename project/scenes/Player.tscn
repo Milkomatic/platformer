@@ -18,16 +18,16 @@ radius = 0.3
 height = 0.61384
 
 [sub_resource type="CylinderShape" id=3]
-radius = 0.2
 height = 0.2
+radius = 0.2
 
 [sub_resource type="CylinderShape" id=4]
-radius = 0.66
 height = 0.77
+radius = 0.66
 
 [sub_resource type="CylinderShape" id=5]
-radius = 0.44
 height = 0.25
+radius = 0.44
 
 [node name="Player" type="KinematicBody"]
 script = ExtResource( 1 )
@@ -103,15 +103,5 @@ script = ExtResource( 10 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00822353, 2.38419e-07, -0.00124407 )
 visible = false
 mesh = ExtResource( 12 )
-material/0 = null
-material/1 = null
-material/2 = null
-material/3 = null
-material/4 = null
-material/5 = null
-material/6 = null
-material/7 = null
-material/8 = null
-material/9 = null
 
 [editable path="Graphics"]
