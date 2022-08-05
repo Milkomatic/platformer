@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/prototype-textures/png/brick.png" type="Texture" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Scripts/RayCast.gd" type="Script" id=6]
 [ext_resource path="res://scenes/Moving_Platform.tscn" type="PackedScene" id=7]
 [ext_resource path="res://env/base.tres" type="Environment" id=8]
+[ext_resource path="res://scenes/Hook.tscn" type="PackedScene" id=9]
 
 [sub_resource type="CubeMesh" id=1]
 
@@ -173,3 +174,6 @@ cast_to = Vector3( 0, -10, 0 )
 collide_with_areas = true
 collide_with_bodies = false
 script = ExtResource( 6 )
+
+[node name="hook" parent="." instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.40026, 5.81013, -17.8665 )

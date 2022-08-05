@@ -43,6 +43,7 @@ onready var buf_bar = $Hud/BufferBar
 
 onready var head_box = $HeadBox
 onready var mid_box = $MidBox
+onready var hook_box = $HookBox
 onready var foot_box = $FootBox
 
 var y_velo = 0.0
@@ -112,6 +113,9 @@ func play_anim(name):
 	if anim.current_animation == name:
 		return
 	anim.play(name)
+
+func is_hooked():
+	return (!hook_box.get_overlapping_areas().empty())
 
 func is_grounded():
 	return (!foot_box.get_overlapping_bodies().empty())
