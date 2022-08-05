@@ -23,7 +23,7 @@ func physics_update(_delta: float) -> void:
 	player.do_momentum_move(input_vec, player.MAX_SPEED, player.WALL_SPEED_MOD, -wall_normal, wall_normal)
 	player.spend_stamina(player.WALL_RUN_STAM_DRAIN)
 
-	if Input.is_action_just_released("dash"):
+	if not Input.is_action_pressed("dash"):
 		state_machine.transition_to("Wall")		
 	if not player.is_walled() or Input.is_action_just_pressed("crouch"):
 		state_machine.transition_to("Air")

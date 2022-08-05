@@ -118,7 +118,7 @@ collision_mask = 3
 shape = SubResource( 3 )
 
 [node name="MeshInstance10" type="MeshInstance" parent="."]
-transform = Transform( 5.03708, 0.558512, 0, -3.43941, 0.817951, 0, 0, 0, 6.19878, -27.8036, 2.24304, 47.926 )
+transform = Transform( 5.03708, 0.558512, 0, -3.43941, 0.817951, 0, 0, 0, 6.19878, -27.8384, 2.24304, 47.8684 )
 mesh = SubResource( 1 )
 material/0 = SubResource( 6 )
 
@@ -159,6 +159,7 @@ mesh = SubResource( 1 )
 material/0 = SubResource( 5 )
 
 [node name="StaticBody" type="StaticBody" parent="gree"]
+transform = Transform( 1, 0, 0, 0, 0.999999, 0, 0, 0, 1, 0.000110276, 0.00043571, -0.000358462 )
 collision_layer = 3
 collision_mask = 3
 
