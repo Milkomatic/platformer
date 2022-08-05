@@ -15,7 +15,7 @@ func physics_update(_delta: float) -> void:
 	player.do_recover()
 
 	if Input.is_action_just_pressed("dash") and player.stamina > 0:
-		state_machine.transition_to("WallRun")		
+		state_machine.transition_to("Dash")		
 	elif not player.is_walled() or Input.is_action_just_pressed("crouch"):
 		state_machine.transition_to("Air")
 	elif Input.is_action_just_pressed("jump") and player.stamina > 0:

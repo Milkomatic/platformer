@@ -27,7 +27,7 @@ height = 0.77
 radius = 0.66
 
 [sub_resource type="SphereShape" id=6]
-radius = 0.830071
+radius = 0.5
 
 [sub_resource type="CylinderShape" id=5]
 height = 0.25
@@ -72,12 +72,12 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00111949, 0.462594, 0.000500
 shape = SubResource( 4 )
 
 [node name="HookBox" type="Area" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0622558, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.427397, 0 )
 collision_layer = 4
 collision_mask = 4
 
 [node name="HookBoxShape" type="CollisionShape" parent="HookBox"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00111949, 0.462594, 0.000500679 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0221845, 0.27564, 0.000500679 )
 shape = SubResource( 6 )
 
 [node name="HeadBox" type="Area" parent="."]
