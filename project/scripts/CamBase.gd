@@ -6,10 +6,11 @@ const H_STICK_SENS = 3
 const V_STICK_SENS = 3
 
 const AUTO_R_DELAY = 1
-const AUTO_R_SPEED = .2
+const AUTO_R_SPEED = .002
 const AUTO_R_ANGLE = .01
 var auto_r_delay_counter = 0.0
 var has_input = false
+var lerp_face
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -38,7 +39,7 @@ func _process(delta):
 	if input_rotation != Vector2.ZERO:
 		has_input
 		
-#	p_auto_rotate(delta)
+	p_auto_rotate(delta)
 
 
 func p_auto_rotate(delta: float):
@@ -47,13 +48,20 @@ func p_auto_rotate(delta: float):
 	else:
 		auto_r_delay_counter += delta
 		if(auto_r_delay_counter >= AUTO_R_DELAY):
-			var dir = get_parent().get_node("Graphics").rotation_degrees
-			dir.x = clamp(dir.x, -90, 30)	
-			dir.y = wrapf(dir.y, 0.0, 360)
-			print(dir)
-#			rotation_degrees = lerp(rotation_degrees, -dir, AUTO_R_SPEED)
-			rotation_degrees.y = dir.y
+#			var dir = get_parent().get_node("demo-man").rotation
+			var facing_vec = get_parent().facing_vec
+#			var aim = get_global_transform().basis
+#			var forward = -aim.z
+#			var dir_vec = Vector2(facing_vec.x, facing_vec.z)
+			var dir_vec = Vector3(facing_vec.x, 0 ,facing_vec.z)
+#			dir.x = clamp(dir.x, -90, 30)	
+#			var angl = wrapf(dir_vec.angle(), 0.0, 1.0)
+#			print(angl)
+#			rotation.y = lerp(rotation.y, -dir.y, AUTO_R_SPEED)
+#			rotation_degrees.y = dir.y
 #			var dir = get_parent().translation
-#			look_at(dir, Vector3.UP)
+			var lerp_face = lerp(lerp_face, dir_vec, AUTO_R_SPEED)
+			look_at(global_transform.origin + lerp_face, Vector3.UP)
+
 	has_input = false
 	

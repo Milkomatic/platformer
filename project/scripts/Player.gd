@@ -27,7 +27,7 @@ const MAX_FALL_SPEED := 30
 const MAX_WALL_SLIDE_SPEED := 5
 const MAX_WALL_RUN_SLIDE_SPEED := 2.5
 
-const RUN_SPEED_MOD := 0.20
+const RUN_SPEED_MOD := 0.10
 const AIR_SPEED_MOD := 0.06
 const WALL_SPEED_MOD := 0.06
 
@@ -82,7 +82,7 @@ func get_input_vec() -> Vector3:
 	var input_vec = Vector3()	
 	input_vec.x = Input.get_action_strength("move_right") -  Input.get_action_strength("move_left")
 	input_vec.z = Input.get_action_strength("move_backwards") -  Input.get_action_strength("move_forwards")
-	input_vec = input_vec.rotated(Vector3(0, 1, 0), cam.rotation.y).normalized()
+	input_vec = input_vec.rotated(Vector3(0, 1, 0), cam.rotation.y)
 	return input_vec
 
 #func do_facing(input_vec: Vector3):
