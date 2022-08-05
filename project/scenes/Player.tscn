@@ -48,7 +48,6 @@ far = 1200.0
 
 [node name="Graphics" parent="." instance=ExtResource( 2 )]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.000535011, 0.00337076, -0.00414824 )
-visible = false
 
 [node name="FootBox" type="Area" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0733814, 0 )
@@ -102,6 +101,7 @@ script = ExtResource( 10 )
 
 [node name="demo-man" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00822353, 2.38419e-07, -0.00124407 )
+visible = false
 mesh = ExtResource( 12 )
 material/0 = null
 material/1 = null

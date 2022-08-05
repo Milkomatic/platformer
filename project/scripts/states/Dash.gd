@@ -4,6 +4,7 @@ extends PlayerState
 var dash_cooldown := 0.0
 
 func enter(msg := {}) -> void:
+	player.cam.has_input = true
 	player.y_velo = 0
 	player.move_vec = player.get_input_vec() * player.DASH_FORCE
 	player.play_anim("jump")

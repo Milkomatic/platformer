@@ -105,8 +105,8 @@ func do_momentum_move(input_vec: Vector3, target_speed: float, change_rate: floa
 	move_and_slide_with_snap(real_move_vec, snap_vector, up_vector, true, 4, deg2rad(80), false)
 	if not is_equal_approx(input_vec.length(), 0.0):
 		facing_vec = lerp(facing_vec, input_vec , TURN_MOD)
-#		graphics.look_at(global_transform.origin - facing_vec, Vector3(0, 1, 0))
-		demo.look_at(global_transform.origin - facing_vec, Vector3(0, 1, 0))
+		graphics.look_at(global_transform.origin - facing_vec, Vector3(0, 1, 0))
+#		demo.look_at(global_transform.origin - facing_vec, Vector3(0, 1, 0))
 
 func play_anim(name):
 	if anim.current_animation == name:

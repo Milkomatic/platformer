@@ -12,6 +12,7 @@ func enter(msg := {}) -> void:
 		player.spend_stamina(player.AIR_JUMP_STAM_COST)
 		player.play_anim("jump")
 	elif msg.has("do_wall_jump"):
+		player.cam.has_input = true
 		player.y_velo = player.V_WALL_JUMP_FORCE
 		player.move_vec = msg["wall_normal"] * player.H_WALL_JUMP_FORCE
 		player.spend_stamina(player.WALL_JUMP_STAM_COST)

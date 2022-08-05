@@ -6,11 +6,11 @@ const H_STICK_SENS = 3
 const V_STICK_SENS = 3
 
 const AUTO_R_DELAY = 1
-const AUTO_R_SPEED = .002
-const AUTO_R_ANGLE = .01
+const AUTO_R_SPEED = .04
+const AUTO_R_ANGLE = .2
 var auto_r_delay_counter = 0.0
 var has_input = false
-var lerp_face
+var angle_to_rotate = 0.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -48,20 +48,17 @@ func p_auto_rotate(delta: float):
 	else:
 		auto_r_delay_counter += delta
 		if(auto_r_delay_counter >= AUTO_R_DELAY):
-#			var dir = get_parent().get_node("demo-man").rotation
 			var facing_vec = get_parent().facing_vec
-#			var aim = get_global_transform().basis
-#			var forward = -aim.z
-#			var dir_vec = Vector2(facing_vec.x, facing_vec.z)
-			var dir_vec = Vector3(facing_vec.x, 0 ,facing_vec.z)
-#			dir.x = clamp(dir.x, -90, 30)	
-#			var angl = wrapf(dir_vec.angle(), 0.0, 1.0)
-#			print(angl)
-#			rotation.y = lerp(rotation.y, -dir.y, AUTO_R_SPEED)
-#			rotation_degrees.y = dir.y
-#			var dir = get_parent().translation
-			var lerp_face = lerp(lerp_face, dir_vec, AUTO_R_SPEED)
-			look_at(global_transform.origin + lerp_face, Vector3.UP)
+			var player_forward = Vector2(-facing_vec.x, -facing_vec.z)
+			var cam_aim = get_global_transform().basis.z
+			var cam_forward = Vector2(cam_aim.x, cam_aim.z)
+			var angle_diff = player_forward.angle_to(cam_forward)		
+			if(abs(angle_diff) > AUTO_R_ANGLE):
+#				angle_to_rotate = lerp(angle_to_rotate, angle_diff, AUTO_R_SPEED)
+#				rotate_y(angle_to_rotate)
+				rotate_y(angle_diff * AUTO_R_SPEED)
+#			else:
+#				auto_r_delay_counter = 0
 
 	has_input = false
 	
