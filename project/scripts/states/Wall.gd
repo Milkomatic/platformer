@@ -24,11 +24,13 @@ func physics_update(_delta: float) -> void:
 
 	if player.is_hooked():
 		state_machine.transition_to("Hook")	
-	if Input.is_action_pressed("dash") and player.stamina > 0:
+	elif Input.is_action_pressed("dash") and player.stamina > 0:
 		state_machine.transition_to("WallRun")
+	elif player.is_grounded() and not is_equal_approx(input_vec.length(), 0.0):
+		state_machine.transition_to("Run")
+	elif player.is_grounded():
+		state_machine.transition_to("Idle")
 	elif not player.is_walled() or Input.is_action_just_pressed("crouch"):
 		state_machine.transition_to("Air")
 	elif Input.is_action_just_pressed("jump") and player.stamina > 0:
 		state_machine.transition_to("Air", {do_wall_jump = true, wall_normal = wall_normal})
-	elif player.is_grounded() and not is_equal_approx(input_vec.length(), 0.0):
-		state_machine.transition_to("Run")
