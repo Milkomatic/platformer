@@ -2,8 +2,8 @@ extends SpringArm
 
 const H_MOUSE_SENS = 0.7
 const V_MOUSE_SENS = 0.7
-const H_STICK_SENS = 3
-const V_STICK_SENS = 3
+const H_STICK_SENS = 5
+const V_STICK_SENS = 5
 
 const AUTO_R_DELAY = 1.5
 const AUTO_R_SPEED = .04
@@ -37,7 +37,7 @@ func _process(delta):
 	rotation_degrees.y = wrapf(rotation_degrees.y, 0.0, 360)
 	
 	if input_rotation != Vector2.ZERO:
-		has_input
+		has_input = true
 		
 	p_auto_rotate(delta)
 

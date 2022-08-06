@@ -17,11 +17,14 @@ func physics_update(_delta: float) -> void:
 		state_machine.transition_to("Air")
 		return
 	
+	player.y_velo = -0.1
 	
 	if Input.is_action_just_pressed("test"):
 		player.buffer = player.MAX_BUFFER
-
-	if Input.is_action_just_pressed("jump"):
+		
+	if Input.is_action_pressed("aim"):
+		state_machine.transition_to("Aim")
+	elif Input.is_action_just_pressed("jump"):
 		# As we'll only have one air state for both jump and fall, we use the `msg` dictionary 
 		# to tell the next state that we want to jump
 		state_machine.transition_to("Air", {do_jump = true})

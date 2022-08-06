@@ -7,16 +7,18 @@ const MAX_EXHAUSTION := 60.0
 const STAMINA_RECOVERY := 3 #2?
 const EXHAUSTION_RECOVERY := .2 #.75?
 
-const DASH_STAM_COST := 30
-#const DASH_STAM_COST := 40
+#const DASH_STAM_COST := 30
+const DASH_STAM_COST := 40
 const WALL_JUMP_STAM_COST := 12
 const AIR_JUMP_STAM_COST := 60
 
 const WALL_RUN_STAM_DRAIN := .25 # should sliding/running cost stamina?
 
 const MAX_SPEED := 15
+const MAX_WALK_SPEED := 5
 const JUMP_FORCE := 30
-const DASH_FORCE := 45
+const DASH_FORCE := 35
+#const DASH_FORCE := 45
 const DASH_LENGTH := 16
 const H_WALL_JUMP_FORCE := 28 #slightly higher than H to make sure player cant climb
 const V_WALL_JUMP_FORCE := 20 
@@ -27,6 +29,7 @@ const MAX_FALL_SPEED := 30
 const MAX_WALL_SLIDE_SPEED := 5
 const MAX_WALL_RUN_SLIDE_SPEED := 2.5
 
+const WALK_SPEED_MOD := 0.10
 const RUN_SPEED_MOD := 0.10
 const AIR_SPEED_MOD := 0.06
 const WALL_SPEED_MOD := 0.06
@@ -40,6 +43,9 @@ onready var demo = $"demo-man"
 onready var stam_bar = $Hud/StaminaBar
 onready var exh_bar = $Hud/ExhaustionBar
 onready var buf_bar = $Hud/BufferBar
+onready var Crossheir = $Hud/Crossheir
+onready var ray_center_cam = $CamBase/Camera/CenterCamera
+var hook = preload("res://scenes/Hook.tscn")
 
 onready var head_box = $HeadBox
 onready var mid_box = $MidBox
@@ -59,6 +65,7 @@ func _ready():
 	anim.get_animation("walk").set_loop(true)
 	stam_bar.max_value = MAX_STAMINA
 	buf_bar.max_value = MAX_BUFFER
+	Crossheir.visible = false
 
 func _physics_process(delta):
 	p_hud()
@@ -73,10 +80,11 @@ func spend_stamina(value: float):
 	stamina -= value
 	if stamina <= 0:
 		buffer += stamina # stamina is negative here
-		exhaustion = -buffer
+		exhaustion -= buffer
 		stamina = 0
 	if buffer < 0:
 		buffer = 0
+
 
 
 func get_input_vec() -> Vector3:
