@@ -2,7 +2,8 @@ class_name Player
 extends KinematicBody
 
 const MAX_STAMINA := 120.0
-const MAX_BUFFER := 360.0
+#const MAX_BUFFER := 360.0
+const MAX_BUFFER := 30.0
 const MAX_EXHAUSTION := 60.0
 const STAMINA_RECOVERY := 3 #2?
 const EXHAUSTION_RECOVERY := .2 #.75?
@@ -14,15 +15,22 @@ const AIR_JUMP_STAM_COST := 60
 
 const WALL_RUN_STAM_DRAIN := .25 # should sliding/running cost stamina?
 
-const MAX_SPEED := 15
+#const MAX_SPEED := 15
+#const MAX_WALK_SPEED := 5
+#const JUMP_FORCE := 30
+#const DASH_FORCE := 35
+#const DASH_LENGTH := 16
+#const H_WALL_JUMP_FORCE := 28 #slightly higher than H to make sure player cant climb
+#const V_WALL_JUMP_FORCE := 20 
+#const AIR_JUMP_FORCE := 25 # same 
+const MAX_SPEED := 13
 const MAX_WALK_SPEED := 5
-const JUMP_FORCE := 30
-const DASH_FORCE := 35
-#const DASH_FORCE := 45
+const JUMP_FORCE := 20
+const DASH_FORCE := 25
 const DASH_LENGTH := 16
-const H_WALL_JUMP_FORCE := 28 #slightly higher than H to make sure player cant climb
-const V_WALL_JUMP_FORCE := 20 
-const AIR_JUMP_FORCE := 25 # same as v_wall force. you get the same upward movement for more stam if you dont use a wall
+const H_WALL_JUMP_FORCE := 20 #slightly higher than H to make sure player cant climb
+const V_WALL_JUMP_FORCE := 18 
+const AIR_JUMP_FORCE := 20 # same as v_wall force. you get the same upward movement for more stam if you dont use a wall
 const GRAVITY := 0.98
 const WALL_SLIDE_SPEED := 5
 const MAX_FALL_SPEED := 30
@@ -82,7 +90,7 @@ func spend_stamina(value: float):
 		buffer += stamina # stamina is negative here
 		exhaustion -= buffer
 		stamina = 0
-	if buffer < 0:
+	if buffer <= 0:
 		buffer = 0
 
 
